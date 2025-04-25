@@ -1,5 +1,6 @@
 import { inicio } from "./views/inicio.js";
 import { header } from "./views/header.js";
+import { cargarFormulario } from "./views/formulario.js";
 
 function cargarDOM (){
     let DOM = document.querySelector("#root");
@@ -7,7 +8,6 @@ function cargarDOM (){
 
     DOM.appendChild(header());
     DOM.appendChild(inicio());
-
 
     return DOM;
 }
