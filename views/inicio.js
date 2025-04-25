@@ -1,3 +1,5 @@
+import { cargarFormulario } from "./formulario.js";
+
 function inicio (){
     let inicio = document.createElement('section');
     inicio.className = "inicio";
@@ -16,6 +18,12 @@ function inicio (){
 
     let btn_jugar_m = document.createElement('button');
     btn_jugar_m.textContent = "crear";
+    btn_jugar_m.addEventListener('click' , () => {
+        let DOM = document.querySelector('#root');
+        DOM.innerHTML = "";
+        let formulario = cargarFormulario();
+        DOM.appendChild(formulario);
+    });
     juego_memoria.appendChild(btn_jugar_m);
 
     let juego_preguntas = document.createElement('div');
