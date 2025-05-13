@@ -1,6 +1,5 @@
-import { inicio } from "./views/inicio.js";
-import { header } from "./views/header.js";
-import { cargarFormulario } from "./views/formulario.js";
+import { inicio } from "./componentes/views/inicio/inicio.js";
+import { header } from "./componentes/views/inicio/header.js";
 
 function cargarDOM (){
     let DOM = document.querySelector("#root");

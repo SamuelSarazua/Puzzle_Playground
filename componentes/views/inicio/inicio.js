@@ -1,4 +1,4 @@
-import { cargarFormulario } from "./formulario.js";
+import { cargarFormulario } from "../formulario/formularioView.js";
 
 function inicio (){
     let inicio = document.createElement('section');
