@@ -1,73 +1,195 @@
-.inicio{
-    width: 100%;
-    height: 100%;
-    background-color: var(--blue-claro);
+.inicio {
+  width: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    padding: 2rem;
-    gap: 2rem;
+  padding: 2rem;
+  gap: 2rem;
+  background-color: var(--beige);
+  position: relative;
+}
+
+.img {
+  width: 40rem;
+  height: 100%;
+  margin-top: -10rem;
+  position: absolute;
+  margin-top: 3rem;
+  left: 0;
+}
+
+.img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info {
-    width: 80rem;
-    height: 15rem;
-    background-color: var(--beige);
-    border-radius: 1rem;
+  width: 80rem;
+  height: 15rem;
+  background-color: var(--beige);
+  border-radius: 1rem;
+  text-align: center;
+
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 40px;
+
+  color: var(--rojo-sangre);
+  background-color: var(--blue-claro);
+  -webkit-text-stroke: 1px rgb(255, 255, 255);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  opacity: 0.9;
 }
 
-.juegos{
-    width: 100%;
-    height: 100%;
-    background-color: var(--beige);
-    border-radius: 1rem;
+.juegos {
+  width: 100%;
+  height: 100%;
+  background-color: var(--blue-claro);
+  border-radius: 1rem;
 
-    display: flex;
-    align-items: end;
-    justify-content: center;
+  display: flex;
+  align-items: end;
+  justify-content: center;
 
-    gap: 2rem;
-    padding: 1rem;
+  gap: 2rem;
+  padding: 1rem;
 }
 
-.juego_memoria{
-    width: 25rem;
-    height: 30rem;
-    background-color: var(--blue-claro);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-
+.juego_memoria,
+.juego_preguntas,
+.juego_libre {
+  width: 25rem;
+  height: 35rem;
+  background-color: var(--amarillo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
-.juego_preguntas{
-    width: 25rem;
-    height: 30rem;
-    background-color: var(--blue-claro);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-
+.juego_memoria:hover,
+.juego_preguntas:hover,
+.juego_libre:hover {
+  transform: scale(1.02);
 }
 
-.juego_libre{
-    width: 25rem;
-    height: 30rem;
-    background-color: var(--blue-claro);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
+.juego_memoria button,
+.juego_preguntas button,
+.juego_libre button {
+  width: 12rem;
+  height: 4rem;
+  background-color: var(--rojo-sangre);
+  color: var(--beige-fantasma);
+  border: none;
+  border-radius: 0.3rem;
+  font-family: "Creepster", cursive;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: auto;
+  box-shadow: 0 0 10px var(--rojo-sangre);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
-button{
-    width: 8rem;
-    height: 3rem;
+.btn-play {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn-play:hover {
+  background-color: #45a049;
+}
+
+button:hover {
+  background-color: #45a049;
+  box-shadow: 0 0 15px var(--rojo-sangre);
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(
+    45deg,
+    var(--rojo-sangre),
+    var(--verde-toxico),
+    var(--rojo-sangre)
+  );
+  background-size: 200% 200%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+  opacity: 0.3;
+  animation: gradient 3s ease infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Efectos VHS */
+.vhs-effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(0deg, transparent 1px, transparent 2px);
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
 }

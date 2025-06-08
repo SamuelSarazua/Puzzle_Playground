@@ -1,5 +1,65 @@
-.header{
-    width: 100%;
-    height: 6rem;
-    background-color: var(--beige);
+.header {
+  width: 100%;
+  height: 6rem;
+  background-color: var(--amarillo);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  position: relative; /* Añadido para contener el menú lateral */
+}
+
+.menu_lateral {
+  width: 20rem;
+  height: calc(100vh - 6rem); /* Altura desde el header hasta abajo */
+  background-color: var(--rojo-sangre);
+  position: absolute;
+  left: 0;
+  top: 6rem; /* Para que empiece debajo del header */
+  transition: transform 0.3s ease; /* Para animación suave */
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  opacity: 0.8;
+}
+
+.menu_lateral button {
+  width: 18rem;
+  height: 3rem;
+  border-radius: 1rem;
+}
+
+.menu_lateral button:hover {
+  background-color: var(--beige);
+}
+
+.menu_lateral.hidden {
+  transform: translateX(-100%); /* Oculta el menú moviéndolo a la izquierda */
+}
+
+.btn_menu {
+  width: 4rem;
+  height: 4rem;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.btn_menu:hover {
+  background-color: var(--beige);
+}
+
+.logo {
+  width: 5rem;
+  height: 5rem;
+  background-color: var(--beige);
+  border-radius: 1rem;
 }

@@ -1,48 +1,60 @@
 import { cargarFormulario } from "../formulario/formularioView.js";
 
-function inicio (){
-    let inicio = document.createElement('section');
-    inicio.className = "inicio";
+function inicio() {
+  let inicio = document.createElement("section");
+  inicio.className = "inicio";
 
-    let info = document.createElement('div');
-    info.className = "info";
-    inicio.appendChild(info);
+  let img = document.createElement("div");
+  img.className = "img";
+  img.innerHTML = `<img src="../assets/love3.png" alt="">`;
+  inicio.appendChild(img);
 
-    let juegos = document.createElement('div');
-    juegos.className = "juegos";
-    inicio.appendChild(juegos);
+  let info = document.createElement("div");
+  info.className = "info";
+  info.textContent = "WELCOME TO THE PUZZLEZ PLAYGROUD";
+  inicio.appendChild(info);
 
-    let juego_memoria = document.createElement('div');
-    juego_memoria.className = "juego_memoria"
-    juegos.appendChild(juego_memoria);
+  let juegos = document.createElement("div");
+  juegos.className = "juegos";
+  inicio.appendChild(juegos);
 
-    let btn_jugar_m = document.createElement('button');
-    btn_jugar_m.textContent = "crear";
-    btn_jugar_m.addEventListener('click' , () => {
-        let DOM = document.querySelector('#root');
-        DOM.innerHTML = "";
-        let formulario = cargarFormulario();
-        DOM.appendChild(formulario);
-    });
-    juego_memoria.appendChild(btn_jugar_m);
+  // Juego Memoria
+  let juego_memoria = document.createElement("div");
+  juego_memoria.className = "juego_memoria";
+  juegos.appendChild(juego_memoria);
 
-    let juego_preguntas = document.createElement('div');
-    juego_preguntas.className = "juego_preguntas";
-    juegos.appendChild(juego_preguntas);
+  let btn_jugar_m = document.createElement("button");
+  btn_jugar_m.textContent = "Play";
+  btn_jugar_m.className = "btn-play";
+  btn_jugar_m.addEventListener("click", (e) => {
+    e.preventDefault();
+    const mainContent = document.querySelector(".contenido-principal");
+    if (mainContent) {
+      mainContent.innerHTML = "";
+      mainContent.appendChild(cargarFormulario());
+    }
+  });
+  juego_memoria.appendChild(btn_jugar_m);
 
-    let btn_jugar_p = document.createElement('button');
-    btn_jugar_p.textContent = "crear";
-    juego_preguntas.appendChild(btn_jugar_p);
+  // Juego Preguntas
+  let juego_preguntas = document.createElement("div");
+  juego_preguntas.className = "juego_preguntas";
+  juegos.appendChild(juego_preguntas);
 
-    let juego_libre = document.createElement('div');
-    juego_libre.className = "juego_libre";
-    juegos.appendChild(juego_libre);
+  let btn_jugar_p = document.createElement("button");
+  btn_jugar_p.textContent = "Play";
+  juego_preguntas.appendChild(btn_jugar_p);
 
-    let btn_jugar_l = document.createElement('button');
-    btn_jugar_l.textContent = "crear";
-    juego_libre.appendChild(btn_jugar_l);
+  // Juego Libre
+  let juego_libre = document.createElement("div");
+  juego_libre.className = "juego_libre";
+  juegos.appendChild(juego_libre);
 
-    return inicio;
+  let btn_jugar_l = document.createElement("button");
+  btn_jugar_l.textContent = "Play";
+  juego_libre.appendChild(btn_jugar_l);
+
+  return inicio;
 }
 
-export {inicio};
+export { inicio };
