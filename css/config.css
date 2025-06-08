@@ -1,17 +1,19 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    font-family: monospace;
-    font-size: 10px;
+html {
+  font-family: monospace;
+  font-size: 10px;
 }
 
 :root {
-    --blue: rgb(96, 181, 255);
-    --blue-claro: rgb(175, 221, 255);
-    --beige: rgb(255, 236, 219);
-    --orange: rgb(255, 145, 73);
+  --blue: rgb(96, 181, 255);
+  --blue-claro: #92d2ee;
+  --beige: rgb(255, 236, 219);
+  --orange: rgb(255, 145, 73);
+  --amarillo: #f9d85e;
+  --rojo-sangre: #db5d4f;
 }
