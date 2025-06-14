@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+
+.juego-container {
+  background-color: #f4f4f4; /* Fondo sólido */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  border: 8px solid #ff9900; /* Bordes naranja */
+  max-width: 600px;
+  width: 90%;
+}
+
+.pregunta {
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #444; /* Color más oscuro */
+  text-shadow: 0 0 5px #ff9900, 0 0 10px #cc6600; /* Efecto brillante más suave */
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.btn-opcion {
+  padding: 15px 20px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 15px;
+  background-color: #ffcc00; /* Color dorado */
+  color: #333; /* Texto oscuro */
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 15px #ffcc00, 0 0 30px #ff9900; /* Efecto brillante */
+}
+
+.btn-opcion:hover {
+  background-color: #ff9900; /* Color más oscuro al pasar el mouse */
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff9900, 0 0 40px #cc6600; /* Efecto más brillante */
+}
+
+.correcta {
+  background-color: #2ecc71 !important; /* Verde para respuestas correctas */
+  box-shadow: 0 0 15px #2ecc71, 0 0 30px #27ae60; /* Efecto brillante */
+}
+
+.incorrecta {
+  background-color: #e74c3c !important; /* Rojo para respuestas incorrectas */
+  box-shadow: 0 0 15px #e74c3c, 0 0 30px #c0392b; /* Efecto brillante */
+}
+
+.mensaje {
+  font-size: 1.8em;
+  margin-top: 20px;
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.mensaje-correcto {
+  color: #2ecc71; /* Verde */
+  text-shadow: 0 0 10px #2ecc71, 0 0 20px #27ae60; /* Efecto brillante */
+}
+
+.mensaje-incorrecto {
+  color: #e74c3c; /* Rojo */
+  text-shadow: 0 0 10px #e74c3c, 0 0 20px #c0392b; /* Efecto brillante */
+}
+
+.mensaje-final {
+  font-size: 2em;
+  color: #ff9900; /* Naranja */
+  margin-top: 30px;
+  text-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600; /* Efecto brillante */
+}
+
+.grafica {
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#graficoResultados {
+  max-width: 100%;
+}
+
+/* Estilo para la pantalla de inicio */
+.titulo-inicio {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #ff9900; /* Color naranja */
+  text-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600; /* Efecto brillante */
+}
+
+.titulo-seleccion {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #ff9900;
+  text-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600;
+}
+
+.btn-inicio {
+  padding: 15px 30px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff9900; /* Color naranja */
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  box-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600; /* Efecto brillante */
+}
+
+.btn-inicio:hover {
+  background-color: #cc6600; /* Color más oscuro al pasar el mouse */
+  transform: scale(1.05);
+}
+
+.niveles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn-nivel {
+  padding: 15px 30px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff9900;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  box-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600;
+}
+
+.btn-nivel:hover {
+  background-color: #cc6600;
+  transform: scale(1.05);
+}
+
+/* Imagen en la pantalla de inicio */
+.imagen-inicio {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.volver-jugar {
+  margin-top: 20px; /* Espaciado para separarlo de la gráfica */
+  padding: 15px 30px;
+  font-size: 1.5em;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff9900; /* Color naranja */
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  box-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600; /* Efecto brillante */
+}
+
+.volver-jugar:hover {
+  background-color: #cc6600; /* Color más oscuro al pasar el mouse */
+  transform: scale(1.05);
+}

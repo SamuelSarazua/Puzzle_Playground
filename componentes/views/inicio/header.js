@@ -10,6 +10,10 @@ function header() {
   let header = document.createElement("header");
   header.className = "header";
 
+  let contenedor_menu = document.createElement("div");
+  contenedor_menu.className = "contenedor_menu";
+  header.appendChild(contenedor_menu);
+
   let menu_lateral = document.createElement("div");
   menu_lateral.className = "menu_lateral hidden";
   header.appendChild(menu_lateral);
@@ -58,11 +62,53 @@ function header() {
   let btn_menu = document.createElement("button");
   btn_menu.className = "btn_menu";
   btn_menu.textContent = "☰";
-  header.appendChild(btn_menu);
+  contenedor_menu.appendChild(btn_menu);
 
   let logo_game = document.createElement("div");
   logo_game.className = "logo";
-  header.appendChild(logo_game);
+  contenedor_menu.appendChild(logo_game);
+
+  let logo_img = document.createElement("img");
+  logo_img.src = "../../assets/logo.png";
+  logo_game.appendChild(logo_img);
+
+  let logos_icon = document.createElement("div");
+  logos_icon.className = "logos_icon";
+  header.appendChild(logos_icon);
+
+  let logo_icon1 = document.createElement("div");
+  logo_icon1.className = "logo_icon1";
+  logos_icon.appendChild(logo_icon1);
+
+  let icon1_img = document.createElement("img");
+  icon1_img.src = "https://cdn-icons-png.flaticon.com/512/25/25231.png";
+  icon1_img.alt = "Icono del juego";
+  logo_icon1.appendChild(icon1_img);
+
+  let logo_icon2 = document.createElement("div");
+  logo_icon2.className = "logo_icon2";
+  logos_icon.appendChild(logo_icon2);
+
+  let icon2_img = document.createElement("img");
+  icon2_img.src =
+    "https://images.icon-icons.com/2429/PNG/512/figma_logo_icon_147289.png";
+  icon2_img.alt = "Icono del juego";
+  logo_icon2.appendChild(icon2_img);
+
+  let logo_icon3 = document.createElement("div");
+  logo_icon3.className = "logo_icon3";
+  logos_icon.appendChild(logo_icon3);
+
+  let icon3_img = document.createElement("img");
+  icon3_img.src =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png";
+  icon3_img.alt = "Icono del juego";
+  logo_icon3.appendChild(icon3_img);
+
+  let btn_menu_icon = document.createElement("button");
+  btn_menu_icon.className = "btn_menu_icon";
+  btn_menu_icon.textContent = "user";
+  logos_icon.appendChild(btn_menu_icon);
 
   btn_menu.addEventListener("click", function () {
     menu_lateral.classList.toggle("hidden");

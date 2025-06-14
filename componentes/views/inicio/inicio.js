@@ -1,58 +1,65 @@
-import { cargarFormulario } from "../formulario/formularioView.js";
-
 function inicio() {
   let inicio = document.createElement("section");
   inicio.className = "inicio";
 
-  let img = document.createElement("div");
-  img.className = "img";
-  img.innerHTML = `<img src="../assets/love3.png" alt="">`;
-  inicio.appendChild(img);
+  let img_inicio = document.createElement("div");
+  img_inicio.className = "img_inicio";
+  inicio.appendChild(img_inicio);
 
-  let info = document.createElement("div");
-  info.className = "info";
-  info.textContent = "WELCOME TO THE PUZZLEZ PLAYGROUD";
-  inicio.appendChild(info);
+  let img = document.createElement("img");
+  // img.src = "https://cdn.shopify.com/s/files/1/0607/2306/9147/files/catnap.png";
+  img_inicio.appendChild(img);
 
-  let juegos = document.createElement("div");
-  juegos.className = "juegos";
-  inicio.appendChild(juegos);
+  let contenido_inicio = document.createElement("div");
+  contenido_inicio.className = "contenido_inicio";
+  inicio.appendChild(contenido_inicio);
 
-  // Juego Memoria
-  let juego_memoria = document.createElement("div");
-  juego_memoria.className = "juego_memoria";
-  juegos.appendChild(juego_memoria);
+  let titulo_inicio = document.createElement("h1");
+  titulo_inicio.textContent = "Puzzle Playground";
+  titulo_inicio.className = "titulo_inicio";
+  contenido_inicio.appendChild(titulo_inicio);
 
-  let btn_jugar_m = document.createElement("button");
-  btn_jugar_m.textContent = "Play";
-  btn_jugar_m.className = "btn-play";
-  btn_jugar_m.addEventListener("click", (e) => {
-    e.preventDefault();
-    const mainContent = document.querySelector(".contenido-principal");
-    if (mainContent) {
-      mainContent.innerHTML = "";
-      mainContent.appendChild(cargarFormulario());
-    }
-  });
-  juego_memoria.appendChild(btn_jugar_m);
+  let texto_inicio = document.createElement("p");
+  texto_inicio.textContent = "welcome to Puzzle Playground.";
+  texto_inicio.className = "texto_inicio";
+  contenido_inicio.appendChild(texto_inicio);
 
-  // Juego Preguntas
-  let juego_preguntas = document.createElement("div");
-  juego_preguntas.className = "juego_preguntas";
-  juegos.appendChild(juego_preguntas);
+  let play_video = document.createElement("div");
+  play_video.className = "play_video";
+  contenido_inicio.appendChild(play_video);
 
-  let btn_jugar_p = document.createElement("button");
-  btn_jugar_p.textContent = "Play";
-  juego_preguntas.appendChild(btn_jugar_p);
+  let img_inicio2 = document.createElement("div");
+  img_inicio2.className = "img_inicio2";
+  inicio.appendChild(img_inicio2);
 
-  // Juego Libre
-  let juego_libre = document.createElement("div");
-  juego_libre.className = "juego_libre";
-  juegos.appendChild(juego_libre);
+  let img2 = document.createElement("img");
+  //img2.src =
+  //  "https://cdn.shopify.com/s/files/1/0607/2306/9147/files/crafty.png";
+  img_inicio2.appendChild(img2);
 
-  let btn_jugar_l = document.createElement("button");
-  btn_jugar_l.textContent = "Play";
-  juego_libre.appendChild(btn_jugar_l);
+  let cont_lenguajes = document.createElement("div");
+  cont_lenguajes.className = "cont_lenguajes";
+  inicio.appendChild(cont_lenguajes);
+
+  let html = document.createElement("div");
+  html.className = "html";
+  cont_lenguajes.appendChild(html);
+
+  let node = document.createElement("div");
+  node.className = "node";
+  cont_lenguajes.appendChild(node);
+
+  let play_games = document.createElement("div");
+  play_games.className = "play_games";
+  cont_lenguajes.appendChild(play_games);
+
+  let css = document.createElement("div");
+  css.className = "css";
+  cont_lenguajes.appendChild(css);
+
+  let js = document.createElement("div");
+  js.className = "js";
+  cont_lenguajes.appendChild(js);
 
   return inicio;
 }

@@ -1,5 +1,72 @@
 .perfil {
   width: 100%;
   height: 100%;
-  background-color: aqua;
+  background-color: var(--beige);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.user,
+.logros {
+  width: 50%;
+  height: 45rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.datos,
+.info_partidas {
+  width: 100%;
+  height: 50%;
+  border-radius: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.datos_user {
+  width: 50%;
+  height: 20rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.img_perfil {
+  width: 15rem;
+  height: 20rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.victorias,
+.derrotas,
+.total_partidas {
+  width: 20rem;
+  height: 15rem;
+
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  padding: 2rem;
+  gap: 1rem;
 }
