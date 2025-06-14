@@ -5,6 +5,7 @@ import { Login } from "./componentes/views/login/loginView.js";
 import { perfil } from "./componentes/views/perfil/perfil.js";
 import { jugar_amigos } from "./componentes/views/amigos/amigos.js";
 import { crear_partida } from "./componentes/views/crear_partida/crear_partida.js";
+import { juego } from "./componentes/views/preguntasView/preguntasView.js";
 
 // Elementos globales
 const DOM = document.querySelector("#root");
@@ -48,6 +49,13 @@ function mostrarCrearPartida() {
   mainContent.appendChild(crear_partida());
 }
 
+// Nueva función para iniciar el juego con pantalla de carga
+async function iniciarJuegoConCarga() {
+  mainContent.innerHTML = "";
+  const juegoContainer = juego();
+  mainContent.appendChild(juegoContainer);
+}
+
 function cargarLogin() {
   DOM.innerHTML = "";
   DOM.className = "dom";
@@ -79,4 +87,5 @@ export {
   mostrarPerfil,
   mostrarJugarAmigos,
   mostrarCrearPartida,
+  iniciarJuegoConCarga, // Exportamos la nueva función
 };
