@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 5rem;
-  background-color: rgb(110, 73, 73);
+  background-color: var(--blue-claro);
 }
 
 .logo-login {
@@ -51,6 +51,8 @@
   outline: none;
   padding: 5px;
   color: white;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
   font-size: 20px;
 }
 
@@ -65,10 +67,12 @@
   background-color: var(--negro);
   opacity: 0.6;
   color: white;
-  font-size: 20px;
   border-radius: 2rem;
   cursor: pointer;
   transition: opacity 0.3s ease;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
 }
 
 .form button:hover {
@@ -84,12 +88,16 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 80px;
 }
 
 .crear p {
-  font-size: 12px;
-  font-family: "Boldonse", system-ui;
-  color: var(--blanco);
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: white;
 }
 
 /* Media Queries para responsive */

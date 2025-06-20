@@ -34,6 +34,7 @@
   padding: 2rem;
   gap: 1rem;
   opacity: 0.8;
+  border-radius: 1rem;
 }
 
 .menu_lateral button {
@@ -103,7 +104,7 @@
   width: 4rem;
   height: 4rem;
   background-color: var(--beige);
-  border-radius: 1rem;
+  border-radius: 3rem;
 }
 
 .logo_icon1 img,

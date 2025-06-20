@@ -26,6 +26,19 @@ function inicio() {
 
   let play_video = document.createElement("div");
   play_video.className = "play_video";
+
+  // Crear el ícono Play (SVG)
+  let playIcon1 = document.createElement("span");
+  playIcon1.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+`;
+
+  // Insertar el ícono dentro del div
+  play_video.appendChild(playIcon1);
+
+  // Agregar el div al contenedor
   contenido_inicio.appendChild(play_video);
 
   let img_inicio2 = document.createElement("div");
@@ -45,21 +58,62 @@ function inicio() {
   html.className = "html";
   cont_lenguajes.appendChild(html);
 
+  let htmlLogo = document.createElement("div");
+  htmlLogo.className = "html-logo";
+  html.appendChild(htmlLogo);
+
+  let htmltexto = document.createElement("p");
+  htmltexto.textContent = "HTML";
+  html.appendChild(htmltexto);
+
   let node = document.createElement("div");
   node.className = "node";
   cont_lenguajes.appendChild(node);
 
+  let nodeLogo = document.createElement("div");
+  nodeLogo.className = "node-logo";
+  node.appendChild(nodeLogo);
+
+  let nodetexto = document.createElement("p");
+  nodetexto.textContent = "Node.js";
+  node.appendChild(nodetexto);
+
   let play_games = document.createElement("div");
   play_games.className = "play_games";
+
+  let playIcon = document.createElement("span");
+  playIcon.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+`;
+
+  play_games.appendChild(playIcon);
   cont_lenguajes.appendChild(play_games);
 
   let css = document.createElement("div");
   css.className = "css";
   cont_lenguajes.appendChild(css);
 
+  let cssLogo = document.createElement("div");
+  cssLogo.className = "css-logo";
+  css.appendChild(cssLogo);
+
+  let csstexto = document.createElement("p");
+  csstexto.textContent = "CSS";
+  css.appendChild(csstexto);
+
   let js = document.createElement("div");
   js.className = "js";
   cont_lenguajes.appendChild(js);
+
+  let jsLogo = document.createElement("div");
+  jsLogo.className = "js-logo";
+  js.appendChild(jsLogo);
+
+  let jstexto = document.createElement("p");
+  jstexto.textContent = "JavaScript";
+  js.appendChild(jstexto);
 
   return inicio;
 }

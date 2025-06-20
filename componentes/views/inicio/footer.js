@@ -12,7 +12,8 @@ function footer() {
   btn_github.appendChild(btn_img);
 
   let colaboradores = document.createElement("div");
-  colaboradores.textContent = "@sesarazua, @sajeronimo, @bemorales";
+  colaboradores.textContent =
+    "@sesarazua, @sajeronimo, @bemorales, @davillatoro";
   colaboradores.className = "colaboradores";
   footer.appendChild(colaboradores);
 

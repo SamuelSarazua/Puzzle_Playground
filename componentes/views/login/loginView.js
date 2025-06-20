@@ -1,5 +1,11 @@
 import { cargarSignup } from "../registro/registroView.js";
 import { cargarContenidoPrincipal } from "../../../index.js";
+
+export function verificarAutenticacion() {
+  const token = localStorage.getItem("authToken");
+  return token !== null && token !== undefined;
+}
+
 function Login() {
   let login = document.createElement("section");
   login.className = "login";
@@ -28,7 +34,7 @@ function Login() {
 
   let inputPassword = document.createElement("input");
   inputPassword.type = "password";
-  inputPassword.id = "contraseña";
+  inputPassword.id = "password";
   inputPassword.placeholder = "Contraseña";
   inputPassword.required = true;
 
@@ -37,9 +43,17 @@ function Login() {
   botonLogin.textContent = "Iniciar Sesión >";
   botonLogin.className = "login-btn";
 
+  // Mensaje de error
+  let errorMessage = document.createElement("div");
+  errorMessage.className = "error-message";
+  errorMessage.style.color = "red";
+  errorMessage.style.marginTop = "10px";
+  errorMessage.style.display = "none";
+
   form.appendChild(inputEmail);
   form.appendChild(inputPassword);
   form.appendChild(botonLogin);
+  form.appendChild(errorMessage);
   login.appendChild(form);
 
   // Enlace Sign Up
@@ -55,16 +69,71 @@ function Login() {
   crearCuenta.appendChild(signupText);
   login.appendChild(crearCuenta);
 
-  // Manejador de login (sin backend)
-  form.addEventListener("submit", function (event) {
+  // Función para manejar el login
+  async function manejarLogin(email, password) {
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: email,
+          contraseña: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error en el login");
+      }
+
+      // Guardar datos de sesión compatibles con tu index.js
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          id: data.id_usuario,
+          nombre: data.nombre,
+          correo: data.correo,
+          puntos: data.puntos || 0,
+        })
+      );
+
+      return true;
+    } catch (error) {
+      console.error("Error en login:", error);
+      throw error;
+    }
+  }
+
+  // Manejador de submit
+  form.addEventListener("submit", async function (event) {
     event.preventDefault();
-    alert("Inicio de sesión exitoso");
 
-    // Guardar estado de sesión
-    localStorage.setItem("isLoggedIn", "true");
+    const email = inputEmail.value;
+    const password = inputPassword.value;
 
-    // Forzar recarga para limpiar cualquier estado anterior
-    window.location.reload();
+    try {
+      botonLogin.disabled = true;
+      botonLogin.textContent = "Iniciando sesión...";
+      errorMessage.style.display = "none";
+
+      const loginExitoso = await manejarLogin(email, password);
+
+      if (loginExitoso) {
+        // Usamos tu función exportada de index.js
+        cargarContenidoPrincipal();
+      }
+    } catch (error) {
+      errorMessage.textContent = error.message || "Credenciales incorrectas";
+      errorMessage.style.display = "block";
+    } finally {
+      botonLogin.disabled = false;
+      botonLogin.textContent = "Iniciar Sesión >";
+    }
   });
 
   // Manejador Sign Up
