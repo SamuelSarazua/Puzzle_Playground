@@ -5,6 +5,7 @@ import {
   mostrarJugarAmigos,
   mostrarCrearPartida,
 } from "../../../index.js";
+import { perfil } from "../perfil/perfil.js";
 
 function header() {
   let header = document.createElement("header");
@@ -109,6 +110,12 @@ function header() {
   btn_menu_icon.className = "btn_menu_icon";
   btn_menu_icon.textContent = "user";
   logos_icon.appendChild(btn_menu_icon);
+
+  // Agregar el evento click para redirigir al perfil
+  btn_menu_icon.addEventListener("click", function () {
+    mostrarPerfil();
+    menu_lateral.classList.add("hidden");
+  });
 
   btn_menu.addEventListener("click", function () {
     menu_lateral.classList.toggle("hidden");

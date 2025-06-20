@@ -1,9 +1,71 @@
 import { Login } from "../login/loginView.js";
+import { cargarContenidoPrincipal } from "../../../index.js";
+
+async function registrarUsuario(nombreCompleto, correo, contraseña) {
+  try {
+    const response = await fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombre: nombreCompleto,
+        correo,
+        contraseña,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error en el registro");
+    }
+
+    // Auto-login después del registro exitoso
+    const loginResponse = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nombre: correo, // Puede ser email o nombre
+        contraseña: contraseña,
+      }),
+    });
+
+    const loginData = await loginResponse.json();
+
+    if (!loginResponse.ok) {
+      throw new Error(
+        loginData.message || "Error en auto-login después de registro"
+      );
+    }
+
+    // Guardar datos de sesión compatibles con tu index.js
+    localStorage.setItem("authToken", loginData.token);
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        id: loginData.id_usuario,
+        nombre: loginData.nombre,
+        correo: loginData.correo,
+        puntos: loginData.puntos || 0,
+      })
+    );
+
+    return loginData;
+  } catch (error) {
+    console.error("Error en registro:", error);
+    throw error;
+  }
+}
+
 function cargarSignup() {
   let signup = document.createElement("section");
   signup.className = "signup";
 
-  // Crear elementos del logo
+  // Logo
   const logoDiv = document.createElement("div");
   const logoImg = document.createElement("img");
   logoImg.src = "";
@@ -14,7 +76,7 @@ function cargarSignup() {
   logoContainer.className = "logo-signup";
   logoContainer.appendChild(logoDiv);
 
-  // Crear elementos del formulario
+  // Formulario
   const formTitle = document.createElement("h1");
   formTitle.textContent = "Create new account";
 
@@ -29,7 +91,7 @@ function cargarSignup() {
   volverLogin.className = "volver-login";
   volverLogin.appendChild(loginLinkText);
 
-  // Campos de entrada
+  // Campos del formulario
   const nombreInput = document.createElement("input");
   nombreInput.type = "text";
   nombreInput.id = "nombre";
@@ -59,11 +121,18 @@ function cargarSignup() {
   passwordInput.placeholder = "Contraseña";
   passwordInput.required = true;
 
+  // Mensaje de error
+  const errorMessage = document.createElement("div");
+  errorMessage.className = "error-message";
+  errorMessage.style.color = "red";
+  errorMessage.style.marginTop = "10px";
+  errorMessage.style.display = "none";
+
   const submitButton = document.createElement("button");
   submitButton.type = "submit";
   submitButton.textContent = "Registrarse";
 
-  // Construir el formulario
+  // Construir formulario
   const formSignup = document.createElement("form");
   formSignup.className = "form-signup";
   formSignup.appendChild(formTitle);
@@ -71,24 +140,58 @@ function cargarSignup() {
   formSignup.appendChild(contNP);
   formSignup.appendChild(correoInput);
   formSignup.appendChild(passwordInput);
+  formSignup.appendChild(errorMessage);
   formSignup.appendChild(submitButton);
 
   // Agregar todo al contenedor principal
   signup.appendChild(logoContainer);
   signup.appendChild(formSignup);
 
-  // Manejar el clic en el enlace "Iniciar Sesión"
-  loginLink.addEventListener("click", function (event) {
+  // Manejador de envío de formulario
+  formSignup.addEventListener("submit", async function (event) {
     event.preventDefault();
-    document.querySelector("#root").innerHTML = "";
-    document.querySelector("#root").appendChild(Login());
+
+    const nombre = nombreInput.value.trim();
+    const apellido = apellidoInput.value.trim();
+    const correo = correoInput.value.trim();
+    const contraseña = passwordInput.value;
+
+    // Validación básica
+    if (!nombre || !apellido || !correo || !contraseña) {
+      errorMessage.textContent = "Por favor completa todos los campos";
+      errorMessage.style.display = "block";
+      return;
+    }
+
+    if (contraseña.length < 6) {
+      errorMessage.textContent =
+        "La contraseña debe tener al menos 6 caracteres";
+      errorMessage.style.display = "block";
+      return;
+    }
+
+    try {
+      submitButton.disabled = true;
+      submitButton.textContent = "Registrando...";
+      errorMessage.style.display = "none";
+
+      await registrarUsuario(`${nombre} ${apellido}`, correo, contraseña);
+
+      // Usamos tu función exportada de index.js para redirigir
+      cargarContenidoPrincipal();
+    } catch (error) {
+      errorMessage.textContent =
+        error.message || "Error en el registro. Intenta nuevamente.";
+      errorMessage.style.display = "block";
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Registrarse";
+    }
   });
 
-  // Manejar el envío del formulario de registro (sin backend)
-  formSignup.addEventListener("submit", function (event) {
+  // Manejador para volver a login
+  loginLink.addEventListener("click", function (event) {
     event.preventDefault();
-    alert("Registro exitoso! Por favor inicia sesión");
-    // Redirigir al login
     document.querySelector("#root").innerHTML = "";
     document.querySelector("#root").appendChild(Login());
   });

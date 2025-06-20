@@ -127,23 +127,6 @@
   justify-content: center;
 }
 
-.btn-nivel {
-  padding: 15px 30px;
-  font-size: 1.5em;
-  border: none;
-  border-radius: 10px;
-  background-color: #ff9900;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
-  box-shadow: 0 0 10px #ff9900, 0 0 20px #cc6600;
-}
-
-.btn-nivel:hover {
-  background-color: #cc6600;
-  transform: scale(1.05);
-}
-
 /* Imagen en la pantalla de inicio */
 .imagen-inicio {
   width: 100%;

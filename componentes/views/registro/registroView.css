@@ -1,20 +1,5 @@
 /* Estilos generales */
-:root {
-  --blanco: #ffffff;
-  --negro: #000000;
-  --azul-oscuro: #4c4e5f;
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  overflow-x: hidden; /* Previene scroll horizontal en toda la página */
-}
 .signup {
   width: 100%;
   min-height: 100vh; /* Cambiado de height a min-height */
@@ -23,8 +8,8 @@ body {
   align-items: center;
   padding: 2rem;
   gap: 2rem;
-  box-sizing: border-box; /* Añadido para incluir padding en el cálculo del tamaño */
-  background-color: rgb(156, 103, 103);
+  box-sizing: border-box;
+  background-color: var(--blue-claro);
 }
 
 .logo-signup {
@@ -60,21 +45,23 @@ body {
 }
 
 .form-signup h1 {
-  font-size: 40px;
-  font-family: "Boldonse", system-ui;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 60px;
   color: var(--blanco);
+  text-align: center;
 }
 
 .form-signup p {
-  font-size: 12px;
-  font-family: "Boldonse", system-ui;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
   color: var(--blanco);
 }
 
 .form-signup .cont_n_p input {
-  width: 19.5rem;
+  width: 20rem;
   height: 4rem;
-  font-size: 18px;
   color: var(--blanco);
   background-color: var(--negro);
   opacity: 0.7;
@@ -82,17 +69,19 @@ body {
   outline: none;
   padding: 5px;
   border-radius: 1rem;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
 }
 
 .form-signup .cont_n_p input::placeholder {
-  font-size: 18px;
+  font-size: 15px;
   color: var(--blanco);
 }
 
 .form-signup input {
   width: 40rem;
   height: 4rem;
-  font-size: 18px;
   color: var(--blanco);
   background-color: var(--negro);
   opacity: 0.7;
@@ -100,21 +89,25 @@ body {
   outline: none;
   padding: 5px;
   border-radius: 1rem;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
 }
 
 .form-signup input::placeholder {
-  font-size: 18px;
+  font-size: 15px;
   color: var(--blanco);
 }
 
 .form-signup button {
   width: 40rem;
   height: 4rem;
-  border-radius: 2rem;
-  font-size: 12px;
+  border-radius: 1rem;
   color: var(--blanco);
-  background-color: var(--azul-oscuro);
-  font-family: "Boldonse", system-ui;
+  background-color: var(--amarillo);
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
 }
 
 /* Media queries para pantallas más pequeñas */

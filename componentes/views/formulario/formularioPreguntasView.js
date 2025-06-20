@@ -38,12 +38,11 @@ export function cargarFormularioPreguntas() {
     nivelBtn.dataset.nivel = i;
     nivelBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      // Remover selección previa
       document.querySelectorAll(".btn-nivel").forEach((btn) => {
         btn.classList.remove("seleccionado");
       });
-      // Marcar como seleccionado
       e.target.classList.add("seleccionado");
+      verificarCamposYGenerarCodigo();
     });
     nivelesContainer.appendChild(nivelBtn);
   }
@@ -51,35 +50,148 @@ export function cargarFormularioPreguntas() {
   selectorNivel.appendChild(nivelesContainer);
   formulario.appendChild(selectorNivel);
 
+  let contenedorCodigo = document.createElement("div");
+  contenedorCodigo.className = "contenedor-codigo";
+
+  let tituloCodigo = document.createElement("h3");
+  tituloCodigo.className = "tituloCodigo";
+  tituloCodigo.textContent = "Código de juego:";
+  contenedorCodigo.appendChild(tituloCodigo);
+
+  let crear_codigo = document.createElement("h1");
+  crear_codigo.className = "generar_codigo";
+  crear_codigo.textContent = "Complete los datos";
+  contenedorCodigo.appendChild(crear_codigo);
+
+  formulario.appendChild(contenedorCodigo);
+
+  // Función para generar un código aleatorio
+  function generarCodigoAleatorio() {
+    const caracteres =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let codigo = "";
+    for (let i = 0; i < 8; i++) {
+      codigo += caracteres.charAt(
+        Math.floor(Math.random() * caracteres.length)
+      );
+    }
+    return codigo;
+  }
+
+  // Función para verificar campos y generar código
+  function verificarCamposYGenerarCodigo() {
+    const nombreValido = nombre.value.trim() !== "";
+    const jugadoresValido =
+      num_jugadores.value &&
+      num_jugadores.value >= 1 &&
+      num_jugadores.value <= 5;
+    const nivelSeleccionado =
+      document.querySelector(".btn-nivel.seleccionado") !== null;
+
+    if (nombreValido && jugadoresValido && nivelSeleccionado) {
+      crear_codigo.textContent = generarCodigoAleatorio();
+      crear_codigo.style.color = "#2ecc71";
+    } else {
+      crear_codigo.textContent = "Complete los datos";
+      crear_codigo.style.color = "#e74c3c";
+    }
+  }
+
+  // Event listeners para los campos
+  nombre.addEventListener("input", verificarCamposYGenerarCodigo);
+  num_jugadores.addEventListener("input", verificarCamposYGenerarCodigo);
+
+  // Función para guardar la partida en el backend
+  async function guardarPartida(datosPartida) {
+    try {
+      const response = await fetch("http://localhost:3000/api/partidas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datosPartida),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al guardar la partida");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  }
+
   // Botón para jugar
   let jugar = document.createElement("button");
-  jugar.textContent = "Jugar a Preguntas";
+  jugar.textContent = "Jugar";
   jugar.className = "btn-jugar";
   jugar.addEventListener("click", async () => {
     const nivelSeleccionado = document.querySelector(".btn-nivel.seleccionado")
       ?.dataset.nivel;
     const numJugadores = num_jugadores.value || 1;
+    const nombreJuego = nombre.value.trim();
+    const codigoGenerado = crear_codigo.textContent;
+
+    // Validaciones
+    if (!nombreJuego) {
+      alert("Por favor ingresa un nombre para el juego");
+      return;
+    }
 
     if (!nivelSeleccionado) {
       alert("Por favor selecciona un nivel");
       return;
     }
 
+    if (
+      !num_jugadores.value ||
+      num_jugadores.value < 1 ||
+      num_jugadores.value > 5
+    ) {
+      alert("Por favor ingresa un número válido de jugadores (1-5)");
+      return;
+    }
+
+    if (codigoGenerado === "Complete los datos") {
+      alert("Por favor completa todos los datos para generar el código");
+      return;
+    }
+
+    // Objeto con los datos de la partida
+    const datosPartida = {
+      nombre_partida: nombreJuego,
+      numero_jugadores: numJugadores,
+      numero_nivel: nivelSeleccionado,
+      codigo_generado: codigoGenerado,
+    };
+
+    // Mostrar pantalla de carga
     const DOM = document.querySelector("#root");
     DOM.innerHTML = "";
-
-    // Mostrar pantalla de carga con información
     const carga = pantalla_carga();
     carga.element.querySelector(
       ".numero_jugadores"
-    ).textContent = `Número de jugadores: ${numJugadores}/5\nNivel: ${nivelSeleccionado}`;
+    ).textContent = `Nombre: ${nombreJuego}\nJugadores: ${numJugadores}/5\nNivel: ${nivelSeleccionado}\nGuardando partida...`;
     DOM.appendChild(carga.element);
 
-    await carga.promise;
+    try {
+      // Guardar la partida en el backend
+      await guardarPartida(datosPartida);
 
-    DOM.innerHTML = "";
-    // Pasar el nivel seleccionado al juego de preguntas
-    DOM.appendChild(juego(parseInt(nivelSeleccionado)));
+      await carga.promise;
+
+      DOM.innerHTML = "";
+      // Iniciar el juego
+      DOM.appendChild(juego(parseInt(nivelSeleccionado)));
+    } catch (error) {
+      DOM.innerHTML = "";
+      alert(
+        "Ocurrió un error al guardar la partida. Por favor intenta nuevamente."
+      );
+      console.error(error);
+    }
   });
 
   formulario.appendChild(jugar);
