@@ -10,6 +10,47 @@
   gap: 2rem;
   box-sizing: border-box;
   background-color: var(--blue-claro);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.image1_signup {
+  width: 60vw;
+  max-width: 40rem;
+  height: 60rem;
+  aspect-ratio: 1000/600;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: absolute;
+  z-index: 1;
+  left: 20%;
+  transform: translateX(-50%);
+  align-self: center;
+}
+
+.image2_signup {
+  width: 60vw;
+  max-width: 40rem;
+  height: 60rem;
+  aspect-ratio: 1000/600;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: absolute;
+  z-index: 1;
+  left: 80%;
+  transform: translateX(-50%);
+  align-self: center;
+}
+
+.image1_signup img,
+.image2_signup img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .logo-signup {
@@ -22,7 +63,7 @@
 }
 
 .logo-signup div {
-  width: 15rem;
+  width: 18rem;
   height: 5rem;
 }
 

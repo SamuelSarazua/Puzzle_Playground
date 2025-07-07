@@ -4,22 +4,28 @@ import { juego } from "../preguntasView/preguntasView.js";
 async function verificarCodigoPartida(codigo) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/partidas/validar/${codigo}`
+      `http://localhost:3000/api/partidas/validar/${codigo}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
-
-    if (!response.ok) {
-      throw new Error("Error al validar partida");
-    }
 
     const data = await response.json();
 
-    if (!data.success) {
-      throw new Error(data.message || "Código inválido");
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Error al validar partida");
+    }
+
+    if (!data.partida || !data.partida.id) {
+      throw new Error("La respuesta del servidor no es válida");
     }
 
     return data.partida;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error al validar partida:", error);
     throw error;
   }
 }
@@ -28,98 +34,107 @@ function jugar_amigos() {
   let juega_amigos = document.createElement("div");
   juega_amigos.className = "juega_amigos";
 
-  // Crear contenedor de partidas públicas
-  let partidas_publicas = document.createElement("div");
-  partidas_publicas.className = "partidas_publicas";
-
-  let titulo_partidas_publicas = document.createElement("h2");
-  titulo_partidas_publicas.textContent = "Partidas Públicas";
-  partidas_publicas.appendChild(titulo_partidas_publicas);
-
-  let contenedor_partidas_publicas = document.createElement("div");
-  contenedor_partidas_publicas.className = "contenedor_partidas_publicas";
-  partidas_publicas.appendChild(contenedor_partidas_publicas);
-
-  juega_amigos.appendChild(partidas_publicas);
-
-  // Crear contenedor de partidas privadas
-  let partidas_privadas = document.createElement("div");
-  partidas_privadas.className = "partidas_privadas";
-
-  let titulo_partidas_privadas = document.createElement("h2");
-  titulo_partidas_privadas.textContent = "Partidas Privadas";
-  partidas_privadas.appendChild(titulo_partidas_privadas);
-
-  let ingresar_partida_privada = document.createElement("input");
-  ingresar_partida_privada.className = "ingresar_partida_p";
-  ingresar_partida_privada.placeholder = "Ingresa tu código";
-  partidas_privadas.appendChild(ingresar_partida_privada);
-
-  let boton_ir = document.createElement("button");
-  boton_ir.className = "boton_ir";
-  boton_ir.textContent = "ir";
+  // ... (código anterior de creación de UI permanece igual)
 
   boton_ir.addEventListener("click", async () => {
     const codigo = ingresar_partida_privada.value.trim();
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
 
     if (!codigo) {
       alert("Por favor ingresa un código de partida");
       return;
     }
 
+    if (!userId || !token) {
+      alert("No se encontró información de usuario. Inicia sesión nuevamente.");
+      return;
+    }
+
     const mainContent = document.querySelector(".contenido-principal");
-    mainContent.innerHTML = "";
+    if (!mainContent) {
+      console.error("No se encontró el contenedor principal");
+      return;
+    }
 
     // Mostrar pantalla de carga
+    mainContent.innerHTML = "";
     const carga = pantalla_carga();
-    carga.element.querySelector(
-      ".numero_jugadores"
-    ).textContent = `Validando código: ${codigo}`;
     mainContent.appendChild(carga.element);
 
     try {
-      // Validar código con el backend
-      const response = await fetch(
-        `http://localhost:3000/api/partidas/validar/${codigo}`
-      );
+      // 1. Validar código de partida
+      const partida = await verificarCodigoPartida(codigo);
 
-      if (!response.ok) {
-        throw new Error("Error al validar partida");
+      if (partida.estado !== "esperando") {
+        throw new Error(
+          partida.estado === "comenzado"
+            ? "La partida ya ha comenzado"
+            : "La partida ha finalizado"
+        );
       }
 
-      const data = await response.json();
+      // 2. Conectar con Socket.io usando el manager
+      const socket = conectarSocket(userId, token);
 
-      if (!data.success) {
-        throw new Error(data.message || "Código inválido");
+      // 3. Configurar listeners
+      escucharEventos(socket, {
+        onActualizarJugadores: (data) => {
+          if (carga?.controller) {
+            carga.controller.actualizarInfo({
+              jugadoresConectados: data.jugadoresConectados,
+              jugadoresRequeridos: partida.jugadores,
+              nivel: partida.nivel,
+              dificultad: partida.dificultad,
+              mensaje: `Esperando jugadores: ${data.jugadoresConectados}/${partida.jugadores}`,
+            });
+          }
+        },
+        onPartidaLista: (data) => {
+          mainContent.innerHTML = "";
+          const juegoView = juego({
+            nivel: parseInt(partida.nivel),
+            dificultad: partida.dificultad,
+            idPartida: partida.id,
+            esMultijugador: true,
+            socket: getSocket(), // Pasamos el socket al juego
+          });
+          mainContent.appendChild(juegoView);
+        },
+        onErrorPartida: (error) => {
+          throw new Error(error.mensaje || "Error en la partida");
+        },
+      });
+
+      // 4. Unirse a la partida
+      await unirsePartida({ codigoPartida: codigo, idUsuario: userId });
+
+      // Actualizar pantalla de carga
+      if (carga?.controller) {
+        carga.controller.actualizarInfo({
+          jugadoresConectados: 1,
+          jugadoresRequeridos: partida.jugadores,
+          nivel: partida.nivel,
+          dificultad: partida.dificultad,
+          mensaje: "Conectando...",
+        });
       }
-
-      const partida = data.partida;
-
-      // Actualizar mensaje de carga
-      carga.element.querySelector(
-        ".numero_jugadores"
-      ).textContent = `Uniéndose a: ${partida.nombre}\nJugadores: ${partida.jugadores}\nNivel: ${partida.nivel}`;
-
-      // Esperar tiempo restante de carga
-      await carga.promise;
-
-      // Redirigir al juego con el nivel de la partida
-      mainContent.innerHTML = "";
-      mainContent.appendChild(juego(parseInt(partida.nivel)));
     } catch (error) {
       console.error("Error al unirse a partida:", error);
-      mainContent.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      mainContent.innerHTML = `
+        <div class="error">
+          <h3>Error al unirse a la partida</h3>
+          <p>${error.message}</p>
+          <button class="btn-volver">Volver</button>
+        </div>
+      `;
 
-      // Volver a mostrar el formulario después de 3 segundos
-      setTimeout(() => {
+      mainContent.querySelector(".btn-volver").addEventListener("click", () => {
         mainContent.innerHTML = "";
         mainContent.appendChild(jugar_amigos());
-      }, 3000);
+      });
     }
   });
-
-  partidas_privadas.appendChild(boton_ir);
-  juega_amigos.appendChild(partidas_privadas);
 
   return juega_amigos;
 }

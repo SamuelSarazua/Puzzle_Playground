@@ -1,19 +1,24 @@
-/* Estilos base del formulario */
-.formulario-preguntas {
+/* Estilos base del formulario - aplica a ambos */
+.formulario-preguntas,
+.formulario-memoria {
   width: 100%;
-  height: 80vh;
-  min-height: 60vh;
+  min-height: 80vh;
   background-color: var(--blue-claro);
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  padding: 4rem;
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 1.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Campos de entrada */
+/* Campos de entrada - aplica a ambos */
 .formulario-preguntas .nombre,
-.formulario-preguntas .num-jugadores {
-  width: 40rem;
+.formulario-preguntas .num-jugadores,
+.formulario-memoria .nombre,
+.formulario-memoria .num-jugadores {
+  width: 100%;
+  max-width: 500px;
   height: 4rem;
   border-radius: 1rem;
   background-color: var(--beige);
@@ -24,36 +29,40 @@
   padding: 1rem;
   border: none;
   outline: none;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-/* Selector de niveles */
+/* Selector de niveles - aplica a ambos */
 .selector-nivel {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  text-align: center;
 }
 
 .selector-nivel h3 {
   font-family: "Bungee", sans-serif;
   color: rgb(77, 67, 67);
   margin: 0;
-  font-size: 20px;
+  font-size: clamp(16px, 4vw, 20px);
 }
 
 .niveles-container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: center;
   padding: 1rem 0;
 }
 
-/* Botones de nivel */
+/* Botones de nivel - aplica a ambos */
 .btn-nivel {
-  width: 15rem;
-  height: 15rem;
+  width: calc(50% - 1rem);
+  max-width: 150px;
+  height: 5rem;
   border-radius: 1rem;
   background-color: var(--beige);
   font-family: "Bungee", sans-serif;
@@ -66,7 +75,8 @@
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.3s ease;
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  box-sizing: border-box;
 }
 
 .btn-nivel:hover {
@@ -80,23 +90,87 @@
   box-shadow: 0 0 10px var(--azul-oscuro);
 }
 
-/* Botón de jugar */
-.btn-jugar {
-  width: 20rem;
+/* Contenedor de dificultad - aplica a ambos */
+.cont-niver-dificultad {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+
+.cont-niver-dificultad h3 {
+  font-family: "Bungee", sans-serif;
+  color: rgb(77, 67, 67);
+  margin: 0;
+  font-size: clamp(16px, 4vw, 20px);
+}
+
+.cont_f_i_d {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Botones de dificultad - aplica a ambos */
+.nivel_facil,
+.nivel_intermedio,
+.nivel_dificil {
+  width: calc(33.333% - 1rem);
+  min-width: 120px;
+  max-width: 150px;
   height: 5rem;
   border-radius: 1rem;
   background-color: var(--beige);
   font-family: "Bungee", sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 17px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  box-sizing: border-box;
+}
+
+.nivel_facil:hover,
+.nivel_intermedio:hover,
+.nivel_dificil:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nivel_facil.seleccionado,
+.nivel_intermedio.seleccionado,
+.nivel_dificil.seleccionado {
+  border: 2px solid var(--azul-oscuro);
+  background-color: var(--amarillo);
+  box-shadow: 0 0 10px var(--azul-oscuro);
+}
+
+/* Botón de jugar - aplica a ambos */
+.btn-jugar {
+  width: 100%;
+  max-width: 300px;
+  height: 5rem;
+  border-radius: 1rem;
+  background-color: var(--beige);
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(15px, 4vw, 17px);
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border: none;
-  margin: 2rem auto 0;
+  margin: 1rem auto 0;
   transition: all 0.3s ease;
   padding: 1rem;
 }
@@ -107,70 +181,113 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Link de compartir */
-.link {
-  width: 40rem;
-  height: 4rem;
-  border-radius: 16px;
-  background-color: var(--beige);
-  font-family: "Bungee", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  color: black;
+/* Contenedor de código - aplica a ambos */
+.contenedor-codigo {
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin: 2rem auto 0;
-  cursor: pointer;
+  gap: 1rem;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .tituloCodigo {
   font-family: "Bungee", sans-serif;
   color: rgb(77, 67, 67);
   margin: 0;
-  font-size: 20px;
+  font-size: clamp(16px, 4vw, 20px);
 }
 
 .generar_codigo {
-  font-size: 15px;
+  font-size: clamp(13px, 3vw, 15px);
   font-family: "Bungee", sans-serif;
   font-weight: 400;
   font-style: normal;
   color: rgb(90, 89, 88);
-  width: 40rem;
+  width: 100%;
+  max-width: 500px;
   height: 4rem;
   border-radius: 1rem;
   background-color: var(--beige);
   padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-/* Estilos responsivos */
+/* Media Queries para diferentes tamaños de pantalla */
 @media (max-width: 768px) {
-  .formulario-preguntas {
-    padding: 2rem;
-    grid-template-rows: auto auto auto auto;
+  .formulario-preguntas,
+  .formulario-memoria {
+    padding: 1.5rem;
+    width: 95%;
+    min-height: auto;
   }
 
-  .formulario-preguntas .nombre,
-  .formulario-preguntas .num-jugadores {
-    width: 100%;
+  .btn-nivel,
+  .nivel_facil,
+  .nivel_intermedio,
+  .nivel_dificil {
+    width: calc(50% - 0.5rem);
+    height: 4rem;
+    font-size: 1rem;
   }
 
-  .btn-nivel {
-    width: 12rem;
-    height: 12rem;
-    font-size: 1.2rem;
+  .cont_f_i_d {
+    gap: 0.5rem;
   }
+}
 
-  .niveles-container {
+@media (max-width: 480px) {
+  .formulario-preguntas,
+  .formulario-memoria {
+    padding: 1rem;
     gap: 1rem;
   }
 
-  .btn-jugar {
+  .btn-nivel,
+  .nivel_facil,
+  .nivel_intermedio,
+  .nivel_dificil {
     width: 100%;
+    max-width: none;
+    height: 3.5rem;
   }
 
-  .link {
-    width: 100%;
+  .cont_f_i_d {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-jugar {
+    height: 4rem;
+  }
+}
+
+.formulario-preguntas,
+.formulario-memoria {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Mejoras de accesibilidad */
+input:focus,
+button:focus {
+  outline: 2px solid var(--azul-oscuro);
+  outline-offset: 2px;
+}
+
+/* Scroll suave para móviles */
+@media (hover: none) {
+  .btn-nivel:hover,
+  .nivel_facil:hover,
+  .nivel_intermedio:hover,
+  .nivel_dificil:hover,
+  .btn-jugar:hover {
+    transform: none;
+    box-shadow: none;
   }
 }

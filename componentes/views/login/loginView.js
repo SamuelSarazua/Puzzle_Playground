@@ -13,7 +13,7 @@ function Login() {
   // Logo
   const logoDiv = document.createElement("div");
   const logoImg = document.createElement("img");
-  logoImg.src = "";
+  logoImg.src = "../../componentes/assets/logo_oficial.png";
   logoImg.alt = "Logo";
   logoDiv.appendChild(logoImg);
 
@@ -72,16 +72,19 @@ function Login() {
   // Función para manejar el login
   async function manejarLogin(email, password) {
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre: email,
-          contraseña: password,
-        }),
-      });
+      const response = await fetch(
+        "https://backend-game-mnte.onrender.com/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombre: email,
+            contraseña: password,
+          }),
+        }
+      );
 
       const data = await response.json();
 

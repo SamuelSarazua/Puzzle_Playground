@@ -1,3 +1,4 @@
+import { mostrarCrearPartida } from "../../../index.js";
 function inicio() {
   let inicio = document.createElement("section");
   inicio.className = "inicio";
@@ -7,7 +8,7 @@ function inicio() {
   inicio.appendChild(img_inicio);
 
   let img = document.createElement("img");
-  // img.src = "https://cdn.shopify.com/s/files/1/0607/2306/9147/files/catnap.png";
+  img.src = "../../componentes/assets/image_inicio.png";
   img_inicio.appendChild(img);
 
   let contenido_inicio = document.createElement("div");
@@ -15,7 +16,7 @@ function inicio() {
   inicio.appendChild(contenido_inicio);
 
   let titulo_inicio = document.createElement("h1");
-  titulo_inicio.textContent = "Puzzle Playground";
+  titulo_inicio.textContent = "Welcome Players";
   titulo_inicio.className = "titulo_inicio";
   contenido_inicio.appendChild(titulo_inicio);
 
@@ -41,15 +42,6 @@ function inicio() {
   // Agregar el div al contenedor
   contenido_inicio.appendChild(play_video);
 
-  let img_inicio2 = document.createElement("div");
-  img_inicio2.className = "img_inicio2";
-  inicio.appendChild(img_inicio2);
-
-  let img2 = document.createElement("img");
-  //img2.src =
-  //  "https://cdn.shopify.com/s/files/1/0607/2306/9147/files/crafty.png";
-  img_inicio2.appendChild(img2);
-
   let cont_lenguajes = document.createElement("div");
   cont_lenguajes.className = "cont_lenguajes";
   inicio.appendChild(cont_lenguajes);
@@ -61,6 +53,11 @@ function inicio() {
   let htmlLogo = document.createElement("div");
   htmlLogo.className = "html-logo";
   html.appendChild(htmlLogo);
+
+  let html_img = document.createElement("img");
+  html_img.src =
+    "https://cdn.iconscout.com/icon/free/png-256/free-html-5-logo-icon-download-in-svg-png-gif-file-formats--programming-langugae-language-pack-logos-icons-1175208.png?f=webp&w=256";
+  htmlLogo.appendChild(html_img);
 
   let htmltexto = document.createElement("p");
   htmltexto.textContent = "HTML";
@@ -74,12 +71,19 @@ function inicio() {
   nodeLogo.className = "node-logo";
   node.appendChild(nodeLogo);
 
+  let node_img = document.createElement("img");
+  node_img.src = "https://img.icons8.com/fluent/512/node-js.png";
+  nodeLogo.appendChild(node_img);
+
   let nodetexto = document.createElement("p");
   nodetexto.textContent = "Node.js";
   node.appendChild(nodetexto);
 
-  let play_games = document.createElement("div");
+  let play_games = document.createElement("button");
   play_games.className = "play_games";
+  play_games.addEventListener("click", function () {
+    mostrarCrearPartida();
+  });
 
   let playIcon = document.createElement("span");
   playIcon.innerHTML = `
@@ -99,6 +103,11 @@ function inicio() {
   cssLogo.className = "css-logo";
   css.appendChild(cssLogo);
 
+  let css_img = document.createElement("img");
+  css_img.src =
+    "https://cdn4.iconfinder.com/data/icons/iconsimple-programming/512/css-512.png";
+  cssLogo.appendChild(css_img);
+
   let csstexto = document.createElement("p");
   csstexto.textContent = "CSS";
   css.appendChild(csstexto);
@@ -110,6 +119,11 @@ function inicio() {
   let jsLogo = document.createElement("div");
   jsLogo.className = "js-logo";
   js.appendChild(jsLogo);
+
+  let js_img = document.createElement("img");
+  js_img.src =
+    "https://static.vecteezy.com/system/resources/previews/027/127/560/non_2x/javascript-logo-javascript-icon-transparent-free-png.png";
+  jsLogo.appendChild(js_img);
 
   let jstexto = document.createElement("p");
   jstexto.textContent = "JavaScript";

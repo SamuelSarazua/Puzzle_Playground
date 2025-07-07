@@ -3,17 +3,20 @@ import { cargarContenidoPrincipal } from "../../../index.js";
 
 async function registrarUsuario(nombreCompleto, correo, contraseña) {
   try {
-    const response = await fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nombre: nombreCompleto,
-        correo,
-        contraseña,
-      }),
-    });
+    const response = await fetch(
+      "https://backend-game-mnte.onrender.com/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: nombreCompleto,
+          correo,
+          contraseña,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -22,16 +25,19 @@ async function registrarUsuario(nombreCompleto, correo, contraseña) {
     }
 
     // Auto-login después del registro exitoso
-    const loginResponse = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nombre: correo, // Puede ser email o nombre
-        contraseña: contraseña,
-      }),
-    });
+    const loginResponse = await fetch(
+      "https://backend-game-mnte.onrender.com/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombre: correo, // Puede ser email o nombre
+          contraseña: contraseña,
+        }),
+      }
+    );
 
     const loginData = await loginResponse.json();
 
@@ -65,10 +71,26 @@ function cargarSignup() {
   let signup = document.createElement("section");
   signup.className = "signup";
 
+  let image1_signup = document.createElement("div");
+  image1_signup.className = "image1_signup";
+  signup.appendChild(image1_signup);
+
+  let img1_signup = document.createElement("img");
+  img1_signup.src = "../../componentes/assets/treen.png";
+  image1_signup.appendChild(img1_signup);
+
+  /*   let image2_signup = document.createElement("div");
+  image2_signup.className = "image2_signup";
+  signup.appendChild(image2_signup);
+
+  let img2_signup = document.createElement("img");
+  img2_signup.src = "../../componentes/assets/toro.png";
+  image2_signup.appendChild(img2_signup); */
+
   // Logo
   const logoDiv = document.createElement("div");
   const logoImg = document.createElement("img");
-  logoImg.src = "";
+  logoImg.src = "../../componentes/assets/logo_oficial.png";
   logoImg.alt = "";
   logoDiv.appendChild(logoImg);
 

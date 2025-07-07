@@ -1,7 +1,7 @@
 .login {
   width: auto;
   height: 100vh;
-  background-image: url("");
+  background-image: url("/../componentes/assets/fondo_login.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -23,7 +23,7 @@
 }
 
 .logo-login div {
-  width: 15rem;
+  width: 18rem;
   height: 5rem;
 }
 
