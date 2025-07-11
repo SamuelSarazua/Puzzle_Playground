@@ -1,24 +1,17 @@
-import { io } from "socket.io-client";
-
-// Configuración de conexión
-const SOCKET_URL =
-  import.meta.env.VITE_SOCKET_URL ||
-  (import.meta.env.NODE_ENV === "production"
-    ? "wss://backend-game-mnte.onrender.com"
-    : "http://localhost:3000");
+// URL fija de tu backend
+const SOCKET_URL = "https://backend-game-mnte.onrender.com";
 
 let socket = null;
 
 export function conectarSocket(idUsuario, token) {
-  // Si ya hay una conexión, la cerramos primero
   if (socket) {
     socket.disconnect();
   }
 
   socket = io(SOCKET_URL, {
     auth: {
-      idUsuario,
-      token,
+      idUsuario: idUsuario,
+      token: token,
     },
     transports: ["websocket"],
     withCredentials: true,
@@ -27,14 +20,12 @@ export function conectarSocket(idUsuario, token) {
     autoConnect: true,
   });
 
-  // Manejadores de eventos básicos
   socket.on("connect", () => {
     console.log("Socket conectado:", socket.id);
   });
 
   socket.on("connect_error", (err) => {
     console.error("Error de conexión Socket.io:", err.message);
-    // Intenta reconectar automáticamente
     setTimeout(() => socket.connect(), 1000);
   });
 
@@ -67,7 +58,6 @@ export function escucharEventos(socket, callbacks) {
   socket.on("partida_lista", callbacks.onPartidaLista);
   socket.on("error_partida", callbacks.onErrorPartida);
 
-  // Agregar más listeners si es necesario
   socket.on("disconnect", () => {
     console.log("Desconectado del servidor");
   });
@@ -83,3 +73,10 @@ export function desconectarSocket() {
 export function getSocket() {
   return socket;
 }
+
+// Opcional: exponer funciones globalmente si las necesitas en otros scripts
+window.conectarSocket = conectarSocket;
+window.unirsePartida = unirsePartida;
+window.escucharEventos = escucharEventos;
+window.desconectarSocket = desconectarSocket;
+window.getSocket = getSocket;

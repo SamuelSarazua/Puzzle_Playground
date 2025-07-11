@@ -24,8 +24,16 @@ export function pantalla_carga() {
       }, 10000); // 10 segundos
     }),
     // Añadimos función para actualizar información
-    actualizarInfo: (texto) => {
-      infoPartida.textContent = texto;
+    actualizarInfo: (info) => {
+      infoPartida.innerHTML = `
+        <p>Juego: ${info.nombreJuego || "N/A"}</p>
+        <p>Jugadores: ${info.jugadoresConectados || 0}/${
+        info.jugadoresRequeridos || 0
+      }</p>
+        <p>Nivel: ${info.nivel || "N/A"}</p>
+        <p>Dificultad: ${info.dificultad || "N/A"}</p>
+        <p>${info.mensaje || ""}</p>
+      `;
     },
   };
 }
