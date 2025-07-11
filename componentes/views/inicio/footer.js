@@ -8,7 +8,7 @@ function footer() {
   footer.appendChild(btn_github);
 
   let btn_img = document.createElement("img");
-  btn_img.src = "../assets/GitHub-logo.png";
+  btn_img.src = "../../componentes/assets/logo_oficial.png";
   btn_github.appendChild(btn_img);
 
   let colaboradores = document.createElement("div");

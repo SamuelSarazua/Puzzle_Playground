@@ -1,25 +1,29 @@
 .inicio {
   width: 100%;
   height: 80vh;
-
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
-
   padding: 2rem;
   gap: 2rem;
   position: relative;
   background-color: var(--amarillo);
+  overflow: hidden;
 }
 
 .img_inicio {
-  width: 20rem;
-  height: 30rem;
+  width: 60vw;
+  max-width: 100rem;
+  height: auto;
+  aspect-ratio: 1000/600;
   object-fit: cover;
   border-radius: 1rem;
-  rotate: 20deg;
-  grid-column: 1/2;
-  grid-row: 1/2;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  align-self: center;
 }
 
 .img_inicio img {
@@ -33,22 +37,25 @@
 
 .contenido_inicio {
   width: 100%;
+  max-width: 1200px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   border-radius: 1rem;
-
-  grid-column: 2/3;
-  grid-row: 1/2;
-
+  grid-column: 1;
+  grid-row: 1;
   gap: 2rem;
   padding: 2rem;
+  position: relative;
+  z-index: 10;
+  margin: 0 auto;
 }
 
 .titulo_inicio {
   text-align: center;
-  font-size: 8rem;
+  font-size: clamp(4rem, 8vw, 8rem);
   font-weight: 900;
   color: var(--blanco);
   font-family: "Bungee", sans-serif;
@@ -57,12 +64,12 @@
 
 .texto_inicio {
   width: 30rem;
-  font-size: 1.5rem;
-  color: var(--blanco);
+  max-width: 80%;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  color: rgb(255, 255, 255);
   font-family: "Bungee", sans-serif;
   font-weight: 400;
   text-align: center;
-  font-size: 2rem;
 }
 
 .play_video {
@@ -71,30 +78,9 @@
   border: 1px solid rgb(250, 250, 250);
   border-radius: 50%;
   background-color: var(--beige);
-
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.img_inicio2 {
-  width: 20rem;
-  height: 35rem;
-  object-fit: cover;
-  border-radius: 1rem;
-  rotate: -20deg;
-
-  grid-column: 3/4;
-  grid-row: 1/2;
-}
-
-.img_inicio2 img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 1rem;
-  position: relative;
-  z-index: 1;
 }
 
 .cont_lenguajes {
@@ -104,11 +90,10 @@
   align-items: center;
   justify-content: space-around;
   border-radius: 1rem;
-
   grid-column: 1/4;
   grid-row: 2/3;
-
   gap: 2rem;
+  z-index: 2;
 }
 
 .html,
@@ -119,7 +104,6 @@
   height: 5rem;
   border-radius: 1rem;
   background-color: var(--blanco);
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +117,6 @@
   height: 100%;
   object-fit: cover;
   border-radius: 1rem;
-  border: 1px solid black;
 }
 
 .html-logo img,
@@ -161,9 +144,7 @@
 .play_games {
   width: 8rem;
   height: 8rem;
-  border-radius: 1rem;
   border-radius: 50%;
-  border: 1px solid black;
   color: black;
   font-family: "Bungee", sans-serif;
   font-weight: 400;
@@ -171,4 +152,103 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--beige);
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .img_inicio {
+    width: 50vw;
+    bottom: 15%;
+  }
+
+  .texto_inicio {
+    width: 25rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .img_inicio {
+    width: 60vw;
+    bottom: 18%;
+  }
+
+  .html,
+  .node,
+  .css,
+  .js {
+    width: 12rem;
+    height: 4rem;
+  }
+
+  .html p,
+  .node p,
+  .css p,
+  .js p {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .inicio {
+    height: auto;
+    min-height: 80vh;
+    padding: 1.5rem;
+  }
+
+  .img_inicio {
+    width: 70vw;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin: 0 auto;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .contenido_inicio {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .cont_lenguajes {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+
+  .play_video {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .play_games {
+    width: 6rem;
+    height: 6rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .img_inicio {
+    width: 90vw;
+  }
+
+  .texto_inicio {
+    width: 90%;
+  }
+
+  .html,
+  .node,
+  .css,
+  .js {
+    width: 45%;
+    margin-bottom: 1rem;
+  }
+
+  .titulo_inicio {
+    font-size: clamp(3rem, 10vw, 4rem);
+  }
 }

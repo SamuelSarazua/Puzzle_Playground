@@ -1,49 +1,62 @@
 .crear_partida {
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 2rem;
   gap: 2rem;
   background-color: var(--blue-claro);
   position: relative;
 }
 
-.img {
-  width: 40rem;
-  height: 100%;
-  margin-top: -10rem;
-  position: absolute;
-  margin-top: 3rem;
-  left: 0;
-}
-
-.img img {
+.carrusel-container {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
 }
 
 .juegos {
-  width: 100%;
+  width: 80%;
   height: 100%;
   background-color: var(--blue-claro);
   border-radius: 1rem;
-
   display: flex;
   align-items: end;
   justify-content: center;
-
   gap: 2rem;
   padding: 1rem;
+  overflow: hidden;
+}
+
+.flecha {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background-color: var(--beige);
+  font-size: 3rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: rgb(63, 58, 58);
+  user-select: none;
+  transition: transform 0.3s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha:hover {
+  transform: scale(1.2);
 }
 
 .juego_memoria,
 .juego_preguntas,
-.juego_libre {
+.juego_ahorcado,
+.juego_reciclaje {
   width: 35rem;
   height: 50rem;
   background-color: var(--amarillo);
@@ -55,17 +68,20 @@
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .juego_memoria:hover,
 .juego_preguntas:hover,
-.juego_libre:hover {
+.juego_ahorcado:hover,
+.juego_reciclaje:hover {
   transform: scale(1.02);
 }
 
 .juego_memoria button,
 .juego_preguntas button,
-.juego_libre button {
+.juego_ahorcado button,
+.juego_reciclaje button {
   width: 12rem;
   height: 4rem;
   background-color: var(--rojo-sangre);
@@ -103,7 +119,11 @@
 
 .juego_memoria button:hover,
 .juego_libre button:hover,
-.juego_preguntas button:hover {
+.juego_preguntas button:hover,
+.juego5 button:hover,
+.juego6 button:hover,
+.juego7 button:hover,
+.juego8 button:hover {
   opacity: 0.3;
   animation: gradient 3s ease infinite;
 }
@@ -125,6 +145,7 @@ button:hover {
   object-fit: cover;
 }
 
+/* Resto de tus animaciones y efectos permanecen igual */
 @keyframes scanline {
   0% {
     transform: translateX(-100%);

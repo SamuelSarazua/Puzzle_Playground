@@ -87,5 +87,5 @@ export {
   mostrarPerfil,
   mostrarJugarAmigos,
   mostrarCrearPartida,
-  iniciarJuegoConCarga, // Exportamos la nueva función
+  iniciarJuegoConCarga,
 };

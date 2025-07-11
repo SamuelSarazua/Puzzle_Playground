@@ -1,4 +1,4 @@
-function pantalla_carga() {
+export function pantalla_carga() {
   let pantalla_carga = document.createElement("div");
   pantalla_carga.className = "pantalla_carga";
 
@@ -10,13 +10,9 @@ function pantalla_carga() {
   let infoJuego = document.createElement("div");
   infoJuego.className = "info-juego";
 
-  let numero_jugadores = document.createElement("div");
-  numero_jugadores.className = "numero_jugadores";
-  infoJuego.appendChild(numero_jugadores);
-
-  let nivel = document.createElement("div");
-  nivel.className = "nivel";
-  infoJuego.appendChild(nivel);
+  let infoPartida = document.createElement("div");
+  infoPartida.className = "info-partida"; // Este será nuestro contenedor
+  infoJuego.appendChild(infoPartida);
 
   pantalla_carga.appendChild(infoJuego);
 
@@ -27,7 +23,17 @@ function pantalla_carga() {
         resolve();
       }, 10000); // 10 segundos
     }),
+    // Añadimos función para actualizar información
+    actualizarInfo: (info) => {
+      infoPartida.innerHTML = `
+        <p>Juego: ${info.nombreJuego || "N/A"}</p>
+        <p>Jugadores: ${info.jugadoresConectados || 0}/${
+        info.jugadoresRequeridos || 0
+      }</p>
+        <p>Nivel: ${info.nivel || "N/A"}</p>
+        <p>Dificultad: ${info.dificultad || "N/A"}</p>
+        <p>${info.mensaje || ""}</p>
+      `;
+    },
   };
 }
-
-export { pantalla_carga };

@@ -70,7 +70,7 @@ function header() {
   contenedor_menu.appendChild(logo_game);
 
   let logo_img = document.createElement("img");
-  logo_img.src = "../../assets/logo.png";
+  logo_img.src = "../../componentes/assets/logo.png";
   logo_game.appendChild(logo_img);
 
   let logos_icon = document.createElement("div");

@@ -5,9 +5,34 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1rem;
   gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.imagen_principal {
+  width: 60vw;
+  max-width: 50rem;
+  height: 60rem;
+  aspect-ratio: 1000/600;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  align-self: center;
+}
+
+.imagen_principal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .partidas_publicas {
@@ -18,8 +43,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--rojo-sangre);
   border-radius: 1rem;
+  gap: 1rem;
+  z-index: 10;
 }
 
 .partidas_publicas h2 {
@@ -32,10 +58,52 @@
 .contenedor_partidas_publicas {
 }
 
+.partida_creada {
+  width: 60rem;
+  height: 4rem;
+  background-color: var(--beige);
+  border-radius: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.nombre_partida {
+  color: var(--rojo-sangre);
+  font-family: "Bungee", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nombres_juego,
+.num_j_partidas,
+.nivel_partida,
+.dificultad_partida {
+  font-family: "Bungee", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(68, 66, 66);
+}
+
+.unirse_pp {
+  all: unset;
+  width: 5rem;
+  height: 3rem;
+  border-radius: 1rem;
+  font-family: "Bungee", sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(68, 66, 66);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(78, 78, 78);
+}
+
 .partidas_privadas {
   width: 50%;
   height: 80vh;
-  background-color: var(--rojo-sangre);
 
   display: flex;
   flex-direction: column;
@@ -44,6 +112,7 @@
   border-radius: 1rem;
   padding: 2rem;
   gap: 3rem;
+  z-index: 10;
 }
 
 .partidas_privadas h2 {
