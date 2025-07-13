@@ -1,11 +1,16 @@
 import { pantalla_carga } from "../carga/cargaView.js";
 import { juego } from "../preguntasView/preguntasView.js";
+import { getSocket, conectarSocket } from "../../../socketManager.js";
 
 export function cargarFormularioPreguntas() {
   let formulario = document.createElement("div");
   formulario.className = "formulario-preguntas";
 
-  // Campos específicos para preguntas
+  // Variables globales para el estado
+  let nivelSeleccionadoGlobal = null;
+  let dificultadSeleccionadaGlobal = null;
+
+  // Campos específicos
   let nombre = document.createElement("input");
   nombre.className = "nombre";
   nombre.placeholder = "Nombre del juego de preguntas";
@@ -19,10 +24,8 @@ export function cargarFormularioPreguntas() {
   num_jugadores.max = "5";
   formulario.appendChild(num_jugadores);
 
-  // Selector de niveles
   let selectorNivel = document.createElement("div");
   selectorNivel.className = "selector-nivel";
-
   let tituloNivel = document.createElement("h3");
   tituloNivel.textContent = "Selecciona un nivel:";
   selectorNivel.appendChild(tituloNivel);
@@ -30,7 +33,6 @@ export function cargarFormularioPreguntas() {
   let nivelesContainer = document.createElement("div");
   nivelesContainer.className = "niveles-container";
 
-  // Crear botones para cada nivel
   for (let i = 1; i <= 5; i++) {
     let nivelBtn = document.createElement("button");
     nivelBtn.className = "btn-nivel";
@@ -42,6 +44,7 @@ export function cargarFormularioPreguntas() {
         btn.classList.remove("seleccionado");
       });
       e.target.classList.add("seleccionado");
+      nivelSeleccionadoGlobal = e.target.dataset.nivel;
       verificarCamposYGenerarCodigo();
     });
     nivelesContainer.appendChild(nivelBtn);
@@ -64,34 +67,30 @@ export function cargarFormularioPreguntas() {
 
   let nivel_facil = document.createElement("button");
   nivel_facil.className = "nivel_facil";
-  nivel_facil.textContent = "Facil";
+  nivel_facil.textContent = "Fácil";
   nivel_facil.dataset.dificultad = "facil";
-  cont_f_i_d.appendChild(nivel_facil);
 
   let niver_intermedio = document.createElement("button");
   niver_intermedio.className = "nivel_intermedio";
   niver_intermedio.textContent = "Medio";
   niver_intermedio.dataset.dificultad = "medio";
-  cont_f_i_d.appendChild(niver_intermedio);
 
   let nivel_dificil = document.createElement("button");
   nivel_dificil.className = "nivel_dificil";
-  nivel_dificil.textContent = "Dificil";
+  nivel_dificil.textContent = "Difícil";
   nivel_dificil.dataset.dificultad = "dificil";
-  cont_f_i_d.appendChild(nivel_dificil);
 
-  // Event listeners para los botones de dificultad
   [nivel_facil, niver_intermedio, nivel_dificil].forEach((boton) => {
     boton.addEventListener("click", (e) => {
       e.preventDefault();
       document
         .querySelectorAll(".nivel_facil, .nivel_intermedio, .nivel_dificil")
-        .forEach((btn) => {
-          btn.classList.remove("seleccionado");
-        });
+        .forEach((btn) => btn.classList.remove("seleccionado"));
       e.target.classList.add("seleccionado");
+      dificultadSeleccionadaGlobal = e.target.dataset.dificultad;
       verificarCamposYGenerarCodigo();
     });
+    cont_f_i_d.appendChild(boton);
   });
 
   let contenedorCodigo = document.createElement("div");
@@ -109,7 +108,6 @@ export function cargarFormularioPreguntas() {
 
   formulario.appendChild(contenedorCodigo);
 
-  // Función para generar un código aleatorio
   function generarCodigoAleatorio() {
     const caracteres =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -122,19 +120,14 @@ export function cargarFormularioPreguntas() {
     return codigo;
   }
 
-  // Función para verificar campos y generar código
   function verificarCamposYGenerarCodigo() {
     const nombreValido = nombre.value.trim() !== "";
     const jugadoresValido =
       num_jugadores.value &&
       num_jugadores.value >= 1 &&
       num_jugadores.value <= 5;
-    const nivelSeleccionado =
-      document.querySelector(".btn-nivel.seleccionado") !== null;
-    const dificultadSeleccionada =
-      document.querySelector(
-        ".nivel_facil.seleccionado, .nivel_intermedio.seleccionado, .nivel_dificil.seleccionado"
-      ) !== null;
+    const nivelSeleccionado = nivelSeleccionadoGlobal !== null;
+    const dificultadSeleccionada = dificultadSeleccionadaGlobal !== null;
 
     if (
       nombreValido &&
@@ -150,22 +143,16 @@ export function cargarFormularioPreguntas() {
     }
   }
 
-  // Event listeners para los campos
   nombre.addEventListener("input", verificarCamposYGenerarCodigo);
   num_jugadores.addEventListener("input", verificarCamposYGenerarCodigo);
 
-  // Función para guardar la partida en el backend
   async function guardarPartida(datosPartida) {
     try {
       const headers = {
         "Content-Type": "application/json",
       };
-
-      // Solo agregar Authorization si existe un token
       const token = localStorage.getItem("token");
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
+      if (token) headers["Authorization"] = `Bearer ${token}`;
 
       const response = await fetch(
         "https://backend-game-mnte.onrender.com/api/partidas",
@@ -188,92 +175,99 @@ export function cargarFormularioPreguntas() {
     }
   }
 
-  // Botón para jugar
   let jugar = document.createElement("button");
   jugar.textContent = "Jugar";
-  jugar.className = "btn-jugar";
+  jugar.className = "btn-crear-partida";
   jugar.addEventListener("click", async () => {
-    const nivelSeleccionado = document.querySelector(".btn-nivel.seleccionado")
-      ?.dataset.nivel;
     const numJugadores = num_jugadores.value;
     const nombreJuego = nombre.value.trim();
     const codigoGenerado = crear_codigo.textContent;
-    const dificultadSeleccionada = document.querySelector(
-      ".nivel_facil.seleccionado, .nivel_intermedio.seleccionado, .nivel_dificil.seleccionado"
-    )?.dataset.dificultad;
 
-    // Validaciones mejoradas
-    if (!nombreJuego) {
-      alert("Por favor ingresa un nombre para el juego");
+    if (
+      !nombreJuego ||
+      !nivelSeleccionadoGlobal ||
+      !dificultadSeleccionadaGlobal ||
+      !numJugadores ||
+      numJugadores < 1 ||
+      numJugadores > 5 ||
+      codigoGenerado === "Complete los datos"
+    ) {
+      alert("Por favor completa todos los campos correctamente.");
       return;
     }
 
-    if (!nivelSeleccionado) {
-      alert("Por favor selecciona un nivel");
-      return;
-    }
-
-    if (!dificultadSeleccionada) {
-      alert("Por favor selecciona una dificultad");
-      return;
-    }
-
-    if (!numJugadores || numJugadores < 1 || numJugadores > 5) {
-      alert("Por favor ingresa un número válido de jugadores (1-5)");
-      return;
-    }
-
-    if (codigoGenerado === "Complete los datos") {
-      alert("Por favor completa todos los datos para generar el código");
-      return;
-    }
-
-    // Objeto con los datos de la partida
     const datosPartida = {
       nombre_partida: nombreJuego,
       numero_jugadores: numJugadores,
-      numero_nivel: nivelSeleccionado,
-      dificultad: dificultadSeleccionada,
+      numero_nivel: nivelSeleccionadoGlobal,
+      dificultad: dificultadSeleccionadaGlobal,
       codigo_generado: codigoGenerado,
-      id_usuarios: localStorage.getItem("userId") || null, // Si tienes usuarios
+      id_usuarios: localStorage.getItem("userId") || null,
     };
 
-    // Mostrar pantalla de carga
     const DOM = document.querySelector("#root");
     DOM.innerHTML = "";
     const carga = pantalla_carga();
     carga.actualizarInfo({
       nombreJuego,
       numJugadores,
-      nivelSeleccionado,
-      dificultadSeleccionada,
+      nivelSeleccionado: nivelSeleccionadoGlobal,
+      dificultadSeleccionada: dificultadSeleccionadaGlobal,
       mensaje: "Guardando partida...",
     });
     DOM.appendChild(carga.element);
 
     try {
       const resultado = await guardarPartida(datosPartida);
-      console.log("Partida guardada:", resultado);
+      console.log("✅ Partida guardada:", resultado);
 
-      // Mostrar mensaje de éxito
-      const DOM = document.querySelector("#root");
-      DOM.innerHTML = "";
       const exito = document.createElement("div");
       exito.className = "mensaje-exito";
       exito.innerHTML = `
         <h3>¡Partida creada exitosamente!</h3>
         <p>Código: ${codigoGenerado}</p>
-        <button class="btn-jugar">Comenzar Juego</button>
+        <button class="btn-comenzar-partida">Comenzar Juego</button>
       `;
       DOM.appendChild(exito);
 
-      // Botón para comenzar el juego
-      DOM.querySelector(".btn-jugar").addEventListener("click", () => {
-        DOM.innerHTML = "";
-        DOM.appendChild(
-          juego(parseInt(nivelSeleccionado), dificultadSeleccionada)
-        );
-      });
+      DOM.querySelector(".btn-comenzar-partida").addEventListener(
+        "click",
+        async () => {
+          const idPartida =
+            resultado.id_partida || resultado.idPartidas || resultado.id;
+          const idLogin = localStorage.getItem("userId");
+          const token = localStorage.getItem("token");
+
+          try {
+            console.log("🚀 Click en comenzar juego");
+            const socket = await conectarSocket(idLogin, token);
+
+            socket.emit("unirse_partida", {
+              codigoPartida: datosPartida.codigo_generado,
+              idLogin: idLogin,
+            });
+
+            socket.once("actualizar_jugadores", () => {
+              console.log("✅ Jugador unido. Enviando comenzar_partida...");
+              socket.emit("comenzar_partida", { idPartida, idLogin });
+            });
+
+            socket.once("partida_comenzada", (data) => {
+              console.log("🎮 Partida comenzó:", data);
+              DOM.innerHTML = "";
+              DOM.appendChild(juego(parseInt(data.nivel), data.dificultad));
+            });
+
+            socket.once("error_partida", (error) => {
+              console.error("❌ Error al unirse a partida:", error.mensaje);
+              alert(error.mensaje || "No se pudo unir a la partida.");
+            });
+          } catch (err) {
+            console.error("Error al conectar socket:", err);
+            alert("No estás conectado al servidor.");
+          }
+        }
+      );
     } catch (error) {
       console.error("Error al guardar partida:", error);
       const DOM = document.querySelector("#root");
@@ -304,6 +298,5 @@ export function cargarFormularioPreguntas() {
   });
 
   formulario.appendChild(jugar);
-
   return formulario;
 }
