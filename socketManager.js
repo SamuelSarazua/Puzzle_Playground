@@ -1,11 +1,22 @@
+import { AuthService } from "../../../authService.js";
+
 // URL fija de tu backend
 const SOCKET_URL = "https://backend-game-mnte.onrender.com";
 
 let socket = null;
 
 export function conectarSocket(idUsuario, token) {
+  if (socket && socket.connected) {
+    return socket; // Ya está conectado
+  }
+
+  if (!idUsuario || !token) {
+    throw new Error("No hay sesión activa");
+  }
+
   if (socket) {
     socket.disconnect();
+    socket = null;
   }
 
   socket = io(SOCKET_URL, {
@@ -20,20 +31,23 @@ export function conectarSocket(idUsuario, token) {
     autoConnect: true,
   });
 
-  socket.on("connect", () => {
-    console.log("Socket conectado:", socket.id);
-  });
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error("Tiempo de espera agotado para conectar el socket"));
+    }, 5000);
 
-  socket.on("connect_error", (err) => {
-    console.error("Error de conexión Socket.io:", err.message);
-    setTimeout(() => socket.connect(), 1000);
-  });
+    socket.on("connect", () => {
+      clearTimeout(timeout);
+      console.log("Socket conectado:", socket.id);
+      resolve(socket);
+    });
 
-  socket.on("disconnect", (reason) => {
-    console.log("Socket desconectado:", reason);
+    socket.on("connect_error", (err) => {
+      clearTimeout(timeout);
+      console.error("Error de conexión Socket.io:", err.message);
+      reject(err);
+    });
   });
-
-  return socket;
 }
 
 export function unirsePartida({ codigoPartida, idUsuario }) {
@@ -43,20 +57,34 @@ export function unirsePartida({ codigoPartida, idUsuario }) {
       return;
     }
 
-    socket.emit("unirse_partida", { codigoPartida, idUsuario }, (response) => {
-      if (response.error) {
-        reject(new Error(response.mensaje));
-      } else {
-        resolve(response);
+    socket.emit(
+      "unirse_partida",
+      { codigoPartida, idLogin: idUsuario },
+      (response) => {
+        if (response.error) {
+          reject(new Error(response.mensaje));
+        } else {
+          resolve(response);
+        }
       }
-    });
+    );
   });
 }
 
 export function escucharEventos(socket, callbacks) {
-  socket.on("actualizar_jugadores", callbacks.onActualizarJugadores);
+  socket.on("actualizar_jugadores", (data) => {
+    callbacks.onActualizarJugadores(data);
+  });
+
   socket.on("partida_lista", callbacks.onPartidaLista);
   socket.on("error_partida", callbacks.onErrorPartida);
+
+  socket.on("partida_comenzada", (data) => {
+    console.log("Partida comenzada:", data);
+    if (callbacks.onPartidaComenzada) {
+      callbacks.onPartidaComenzada(data);
+    }
+  });
 
   socket.on("disconnect", () => {
     console.log("Desconectado del servidor");

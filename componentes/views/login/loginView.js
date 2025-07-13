@@ -2,8 +2,9 @@ import { cargarSignup } from "../registro/registroView.js";
 import { cargarContenidoPrincipal } from "../../../index.js";
 
 export function verificarAutenticacion() {
-  const token = localStorage.getItem("authToken");
-  return token !== null && token !== undefined;
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  return !!token && !!userId;
 }
 
 function Login() {
@@ -92,18 +93,11 @@ function Login() {
         throw new Error(data.message || "Error en el login");
       }
 
-      // Guardar datos de sesión compatibles con tu index.js
-      localStorage.setItem("authToken", data.token);
+      // Guardar todos los datos necesarios de forma consistente
+      localStorage.setItem("token", data.token); // Usar "token" en lugar de "authToken"
+      localStorage.setItem("userId", data.id_usuario); // Guardar como "userId"
+      localStorage.setItem("username", data.nombre); // Guardar nombre de usuario
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({
-          id: data.id_usuario,
-          nombre: data.nombre,
-          correo: data.correo,
-          puntos: data.puntos || 0,
-        })
-      );
 
       return true;
     } catch (error) {
